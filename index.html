@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Register</title>
+</head>
+<body>
+    <h2>Welcome!</h2>
+    <a href="/login.php">Login</a>
+    <div>
+        <section id="guest_users">
+            <div class="guest-container">
+            <h1>Public Incident Reporting System</h1>
+            <form action="submit_incident.php" method="post">
+                <label for="incident_type">Incident Type:</label>
+                <select name="incident_type" id="incident_type">
+                    <option value="streetlight">Streetlight</option>
+                    <option value="water_leakage">Water Pipe Leakage</option>
+                    <option value="drainage_floods">Rainwater Drainage/Floods</option>
+                    <option value="road_reconstruction">Road Reconstruction</option>
+                    <option value="garbage_system">Garbage System</option>
+                </select><br>
+                <label for="incident_location">Location:</label>
+                <select name="incident_location" id="incident_location">
+                    <option value="Abia">Abia</option>
+                    <option value="Leqele">Leqele</option>
+                    <option value="Thetsane">Thetsane</option>
+                    <option value="Pena-Pena">Pena-Pena</option>
+                    <option value="Maseru West">Maseru West</option>
+                    <option value="Maseru East">Maseru East</option>
+                    <option value="City Center">City Center</option>
+                    <option value="Katlehong">Katlehong</option>
+                    <option value="Khubetsoana">Khubetsoana</option>
+                    <option value="Upper Thamae">Upper Thamae</option>
+                    <option value="Lower Thamae">Lower Thamae</option>
+                    <option value="Qoaling">Qoaling</option>
+                    <option value="Seoli">Seoli</option>
+                    <option value="Leqele">Pita</option>
+                </select><br>
+                <label for="incident_description">Description:</label><br>
+                <textarea name="incident_description" id="incident_description" rows="4" cols="50"></textarea><br>
+                <button type="submit">Submit Incident</button>
+            </form>
+            </div>
+        </section>
+        <secion id="view-incidents">
+            <div class="view-incidents-containter">
+                <div id="incidentList"></div> <!-- This is where the incidents will be displayed -->
+
+                <script>
+                    document.getElementById("incident_location").addEventListener("change", function() {
+                        var selectedLocation = this.value;
+                        fetchIncidents(selectedLocation);
+                    });
+                
+                    function fetchIncidents(location) {
+                        document.getElementById("incidentList").innerHTML = "Loading...";
+                
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function() {
+                            if (this.readyState == 4 && this.status == 200) {
+                                document.getElementById("incidentList").innerHTML = this.responseText;
+                            }
+                        };
+                        xhr.open("GET", "view_incidents.php?location=" + encodeURIComponent(location), true);
+                        xhr.send();
+                    }
+                </script>
+            </div>
+
+        </secion>
+    </div>
+    
+</body>
+</html>
